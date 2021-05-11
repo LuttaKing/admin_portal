@@ -1,9 +1,12 @@
-import 'package:admin/screens/dashbooard/components/chart.dart';
+
+import 'package:admin/responsive.dart';
 import 'package:admin/screens/dashbooard/components/header.dart';
+import 'package:admin/screens/dashbooard/components/my_fiels.dart';
+import 'package:admin/screens/dashbooard/components/recent_files.dart';
+import 'package:admin/screens/dashbooard/components/storage_details.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import '../../constants.dart';
-import 'components/storagecardinfo.dart';
 
 class DashboardScreen extends StatelessWidget {
   @override
@@ -17,45 +20,33 @@ class DashboardScreen extends StatelessWidget {
             SizedBox(
               height: defaultPadding,
             ),
-            Row(crossAxisAlignment: CrossAxisAlignment.start,
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
                     flex: 5,
-                    child: Container(
-                      color: Colors.white,
-                      height: 500,
-                    )),
-                SizedBox(
-                  width: defaultPadding,
-                ),
-                Expanded(
-                    flex: 2,
-                    child: Container(
-                      padding: EdgeInsets.all(defaultPadding),
-                      decoration: BoxDecoration(
-                          color: secondaryColor,
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(10))),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Storage Details',
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.w500),
+                    child: Column(
+                      children: [
+                        MyFiels(),
+                        SizedBox(
+                          height: defaultPadding,
+                        ),
+                        RecentFiles(),
+                        if (Responsive.isMobile(context))
+                          SizedBox(height: defaultPadding,
                           ),
-                          SizedBox(
-                            height: defaultPadding,
-                          ),
-                          Chart(pieChartDatas: pieChartDatas),
-                          StorageInfoCard(title: 'Documents Files',svgSrc: 'assets/icons/Documents.svg',files: '1.5GB',numOfFiles: 143,),
-                      StorageInfoCard(title: 'Media Files',svgSrc: 'assets/icons/media.svg',files: '10.5GB',numOfFiles: 72,),
-                 StorageInfoCard(title: 'Documents Files',svgSrc: 'assets/icons/folder.svg',files: '2.5GB',numOfFiles: 201,),
-               StorageInfoCard(title: 'Documents Files',svgSrc: 'assets/icons/unknown.svg',files: '4.4GB',numOfFiles: 331,),
-
-                        ],
-                      ),
+                        if (Responsive.isMobile(context))
+                          StorageDetails(pieChartDatas: pieChartDatas),
+                      ],
                     )),
+                if (!Responsive.isMobile(context))
+                  SizedBox(
+                    width: defaultPadding,
+                  ),
+                if (!Responsive.isMobile(context))
+                  Expanded(
+                      flex: 2,
+                      child: StorageDetails(pieChartDatas: pieChartDatas)),
               ],
             )
           ],
@@ -64,7 +55,7 @@ class DashboardScreen extends StatelessWidget {
     );
   }
 
-  List<PieChartSectionData> pieChartDatas = [
+  final List<PieChartSectionData> pieChartDatas = [
     PieChartSectionData(
       showTitle: false,
       color: primaryColor,
@@ -97,4 +88,3 @@ class DashboardScreen extends StatelessWidget {
     ),
   ];
 }
-
